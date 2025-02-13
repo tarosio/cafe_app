@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>商品登録</title>
+    <style>
+      /* お好みでスタイルを調整してください */
+      body { font-family: Arial, sans-serif; margin: 2em; }
+      label { display: block; margin-top: 1em; }
+      input[type="text"], textarea { width: 300px; }
+      .message { color: red; }
+    </style>
+</head>
+<body>
+    <h1>商品登録</h1>
+    
+    <!-- フラッシュメッセージの表示 -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="message">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="{{ url_for('add_product') }}">
+        <label for="name">商品名（必須）:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">説明:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <label for="category">カテゴリ:</label>
+        <input type="text" id="category" name="category">
+
+        <label for="unit_price">単価（必須）:</label>
+        <input type="text" id="unit_price" name="unit_price" required>
+
+        <br><br>
+        <input type="submit" value="登録">
+    </form>
+</body>
+</html>
