@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫一覧</title>
+</head>
+<body>
+    <h1>在庫一覧</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>商品名</th>
+                <th>カテゴリ</th>
+                <th>単価</th>
+                <th>現在の在庫数</th>
+                <th>最終更新日時</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.Name }}</td>
+                <td>{{ product.Category }}</td>
+                <td>{{ product.UnitPrice }}</td>
+                <td>{{ product.CurrentStock }}</td>
+                <td>{{ product.LastUpdated }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

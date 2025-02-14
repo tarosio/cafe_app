@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入出庫登録</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>入出庫登録</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('add_transaction') }}" method="post">
+        <label for="product_id">商品:</label>
+        <select name="product_id" id="product_id" required>
+            <option value="">商品を選択してください</option>
+            {% for product in products %}
+                <option value="{{ product.ID }}">{{ product.Name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="user_id">ユーザー:</label>
+        <select name="user_id" id="user_id" required>
+            <option value="">ユーザーを選択してください</option>
+            {% for user in users %}
+                <option value="{{ user.ID }}">{{ user.Name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="quantity">数量:</label>
+        <input type="number" name="quantity" id="quantity" required>
+        <br>
+
+        <label for="movement_type">入出庫の種類:</label>
+        <select name="movement_type" id="movement_type" required>
+            <option value="入庫">入庫</option>
+            <option value="出庫">出庫</option>
+        </select>
+        <br>
+
+        <label for="notes">備考:</label>
+        <input type="text" name="notes" id="notes">
+        <br>
+
+        <button type="submit">登録</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('transaction_list') }}">入出庫履歴を見る</a>
+    <br>
+    <a href="{{ url_for('product_list') }}">商品一覧に戻る</a>
+</body>
+</html>
