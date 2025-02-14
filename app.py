@@ -182,13 +182,13 @@ def edit_product(product_id):
 
 @app.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
-    # データベースから商品を削除
-    product = Product.query.get_or_404(product_id)
-    db.session.delete(product)
-    db.session.commit()
-
-    # 商品削除後、商品一覧ページにリダイレクト
-    return redirect(url_for('products'))
+    conn = get_db_connection()
+    # テーブル名を正確に指定
+    conn.execute('DELETE FROM Product WHERE ID = ?', (product_id,))
+    conn.commit()
+    conn.close()
+    flash('商品が削除されました。')
+    return redirect(url_for('product_list'))
 
 
 if __name__ == '__main__':
