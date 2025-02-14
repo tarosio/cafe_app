@@ -134,6 +134,61 @@ def stock_list():
 
     return render_template('stock_list.html', products=products)
 
+# 商品編集画面の表示（GET）
+@app.route('/edit_product/<int:product_id>', methods=['GET'])
+def edit_product_form(product_id):
+    conn = get_db_connection()
+    product = conn.execute('SELECT * FROM Product WHERE ID = ?', (product_id,)).fetchone()
+    conn.close()
+
+    if product is None:
+        flash('商品が見つかりませんでした。')
+        return redirect(url_for('product_list'))
+
+    return render_template('edit_product.html', product=product)
+
+# 商品編集処理（POST）
+@app.route('/edit_product/<int:product_id>', methods=['POST'])
+def edit_product(product_id):
+    name = request.form.get('name')
+    description = request.form.get('description')
+    category = request.form.get('category')
+    unit_price = request.form.get('unit_price')
+
+    # 必須項目のチェック
+    if not name or not unit_price:
+        flash('商品名と単価は必須です。')
+        return redirect(url_for('edit_product_form', product_id=product_id))
+
+    # 単価を float に変換（変換できなければエラー）
+    try:
+        unit_price = float(unit_price)
+    except ValueError:
+        flash('単価は数値で入力してください。')
+        return redirect(url_for('edit_product_form', product_id=product_id))
+
+    # データベースの更新
+    conn = get_db_connection()
+    conn.execute('''
+        UPDATE Product
+        SET Name = ?, Description = ?, Category = ?, UnitPrice = ?
+        WHERE ID = ?
+    ''', (name, description, category, unit_price, product_id))
+    conn.commit()
+    conn.close()
+
+    flash('商品情報が更新されました。')
+    return redirect(url_for('product_list'))
+
+@app.route('/delete_product/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    # データベースから商品を削除
+    product = Product.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+
+    # 商品削除後、商品一覧ページにリダイレクト
+    return redirect(url_for('products'))
 
 
 if __name__ == '__main__':

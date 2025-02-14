@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品編集</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>商品編集</h1>
+    <form action="{{ url_for('edit_product', product_id=product.ID) }}" method="POST">
+        <label for="name">商品名</label>
+        <input type="text" name="name" id="name" value="{{ product.Name }}" required>
+
+        <label for="description">説明</label>
+        <input type="text" name="description" id="description" value="{{ product.Description }}">
+
+        <label for="category">カテゴリー</label>
+        <input type="text" name="category" id="category" value="{{ product.Category }}">
+
+        <label for="unit_price">単価</label>
+        <input type="text" name="unit_price" id="unit_price" value="{{ product.UnitPrice }}" required>
+
+        <button type="submit" class="button">更新</button>
+    </form>
+    <a href="{{ url_for('product_list') }}" class="button">戻る</a>
+</body>
+</html>
