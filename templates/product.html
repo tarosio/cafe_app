@@ -74,7 +74,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for product in products %}
+            {% for product in product %}
             <tr>
                 <td>{{ product.ID }}</td>
                 <td>{{ product.Name }}</td>
@@ -82,7 +82,7 @@
                 <td>{{ product.Category }}</td>
                 <td>{{ product.UnitPrice }}</td>
                 <td class="action-column">
-                    <a href="{{ url_for('edit_product_form', product_id=product.ID) }}" class="button">編集</a> <!-- 編集ボタン -->
+                    <a href="{{ url_for('edit_product', product_id=product.ID) }}" class="button">編集</a> <!-- 編集ボタン -->
                     <form action="{{ url_for('delete_product', product_id=product.ID) }}" method="POST" style="display:inline;">
                         <button type="submit" class="button delete-button" onclick="return confirm('本当に削除しますか？')">削除</button> <!-- 削除ボタン -->
                     </form>
@@ -91,6 +91,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('add_product_form') }}" class="add-product-link">商品を追加</a>
+    <a href="{{ url_for('add_product') }}" class="add-product-link">商品を追加</a>
 </body>
 </html>
